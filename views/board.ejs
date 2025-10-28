@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Kanban Board</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Kanban</h1>
+        <nav>
+
+
+            <% if (user.email) { %>
+                <div class="dropdown-center">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <%= user.name %>
+                            <%= user._Id %>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">
+                                <%= user.email %>
+                            </a></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                </div>
+                <% } else { %>
+                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/signup">Sign up</a>
+                    <% } %>
+        </nav>
+    </header>
+    <main>
+        <div class="board">
+
+            <section class="todo">
+                <h1>Todo <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
+                <ul class="drop-zone">
+                    <% cards.forEach( card=> {%>
+                        <% if(card.status==='todo' ){ %>
+                            <li class="card" draggable="true" data-id="<%= card._id%>">
+                                <p>
+                                    <%= card.title%>
+                                </p>
+                                <small>
+                                    <%= card.author.name%>
+                                </small> <!-- pupulate did this -->
+                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %></small>
+                            </li>
+                            <% } %>
+                                <% });%>
+                </ul>
+            </section>
+            <section class="wip">
+                <h1>Todo <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
+                <ul class="drop-zone">
+                    <% cards.forEach( card=> {%>
+                        <% if(card.status==='wip' ){ %>
+                            <li class="card" draggable="true" data-id="<%= card._id%>">
+                                <p>
+                                    <%= card.title%>
+                                </p>
+                                <small>
+                                    <%= card.author.name%>
+                                </small> <!-- pupulate did this -->
+                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %></small>
+                            </li>
+                            <% } %>
+                                <% });%>
+                </ul>
+            </section>
+            <section class="done">
+                <h1>Todo <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
+                <ul class="drop-zone">
+                    <% cards.forEach( card=> {%>
+                        <% if(card.status==='done' ){ %>
+                            <li class="card" draggable="true" data-id="<%= card._id%>">
+                                <p>
+                                    <%= card.title%>
+                                </p>
+                                <small>
+                                    <%= card.author.name%>
+                                </small> <!-- pupulate did this -->
+                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %></small>
+                            </li>
+                            <% } %>
+                                <% });%>
+                </ul>
+            </section>
+        </div>
+
+    </main>
+    <footer>
+        <div>
+            <h3>TEAM </h3>
+            <ul>
+                <li>
+                    <%= user.name %>
+                </li>
+                <li> <i class="fa fa-plus-square" aria-hidden="true"></i></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/main.js"></script>
+
+</html>
