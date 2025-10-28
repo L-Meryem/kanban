@@ -16,8 +16,9 @@ router.get('/board', async (req, res) => {
     //get cards
     const cards = await Card.find({}).populate('author', 'name');
     const user = await User.findById(userId);
+    const users = await User.find({}).populate('name');
     //populate find the id and brings the user name
-    res.render('board', { cards, user });
+    res.render('board', { cards, user, users });
 })
 
 //Create a card

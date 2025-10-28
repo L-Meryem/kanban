@@ -103,10 +103,11 @@
         <div>
             <h3>TEAM </h3>
             <ul>
+                <% users.forEach(u => { %>
                 <li>
-                    <%= user.name %>
+                    <%= u.name %>
                 </li>
-                <li> <i class="fa fa-plus-square" aria-hidden="true"></i></li>
+                <% }); %>
             </ul>
         </div>
     </footer>
