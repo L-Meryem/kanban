@@ -36,5 +36,17 @@ router.post('/card', async (req, res) => {
     res.json({ success: true, card: card });
 });
 
+//Update card's status
+router.put('/card', async (req, res) => {
+    console.log( req.body.cardId);
+        const card = await Card.findByIdAndUpdate(
+        req.body.cardId, 
+        { status: req.body.status.toLowerCase() }, 
+        { new: true }
+    );
+    res.json({ success: true, card });
+});
+
+
 
 module.exports = router;

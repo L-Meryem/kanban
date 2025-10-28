@@ -13,8 +13,6 @@
     <header>
         <h1>Kanban</h1>
         <nav>
-
-
             <% if (user.email) { %>
                 <div class="dropdown-center">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
@@ -49,15 +47,17 @@
                                 </p>
                                 <small>
                                     <%= card.author.name%>
+                                    <%= card.status%>
                                 </small> <!-- pupulate did this -->
-                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %></small>
+                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
+                                        </small>
                             </li>
                             <% } %>
                                 <% });%>
                 </ul>
             </section>
             <section class="wip">
-                <h1>Todo <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
+                <h1>WIP <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
                 <ul class="drop-zone">
                     <% cards.forEach( card=> {%>
                         <% if(card.status==='wip' ){ %>
@@ -67,15 +67,17 @@
                                 </p>
                                 <small>
                                     <%= card.author.name%>
+                                    <%= card.status%>
                                 </small> <!-- pupulate did this -->
-                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %></small>
+                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
+                                        </small>
                             </li>
                             <% } %>
                                 <% });%>
                 </ul>
             </section>
             <section class="done">
-                <h1>Todo <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
+                <h1>Done <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
                 <ul class="drop-zone">
                     <% cards.forEach( card=> {%>
                         <% if(card.status==='done' ){ %>
@@ -85,8 +87,10 @@
                                 </p>
                                 <small>
                                     <%= card.author.name%>
+                                    <%= card.status %>
                                 </small> <!-- pupulate did this -->
-                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %></small>
+                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
+                                        </small>
                             </li>
                             <% } %>
                                 <% });%>

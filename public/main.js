@@ -52,7 +52,7 @@ Array.from(trash).forEach(function (element) {
 
 Array.from(add).forEach(e => e.addEventListener('click', createCard));
 
-function createCard(e){
+function createCard(e) {
   //get drop zone
   const ul = e.target.parentNode.nextElementSibling;
   //create li
@@ -63,20 +63,20 @@ function createCard(e){
   ul.appendChild(newCard);
   //lisen to input
   const input = newCard.querySelector('input');
-  input.addEventListener('keypress', e=>{
-    if(e.key==='Enter' && input.value !== ''){
+  input.addEventListener('keypress', e => {
+    if (e.key === 'Enter' && input.value !== '') {
       fetch('/card', {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        'title': input.value,
-        'status': newCard.parentNode.parentNode.className
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          'title': input.value,
+          'status': newCard.parentNode.parentNode.className
+        })
       })
-    })
-      .then(response => {
-        if (response.ok)
-          window.location.href = '/board'; 
-      })
+        .then(response => {
+          if (response.ok)
+            window.location.href = '/board';
+        })
     }
   })
 }
@@ -84,47 +84,62 @@ function createCard(e){
 
 
 ///Drag and drop API Learned from MDN🤍/////////////
-  //https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+//https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
 
-// function dragstartHandler(e) {
-//   e.dataTransfer.setData("text/plain", e.target.classList[0]); // get the li by classname
-// }
+function dragstartHandler(e) {
+  e.dataTransfer.setData("text/plain", e.target.dataset.id); // get the li by data-id
+}
 
-// const cards = document.querySelectorAll("li[class^='card-']");
-// cards.forEach(card => card.addEventListener("dragstart", dragstartHandler));
+const cards = document.querySelectorAll("li");
+cards.forEach(card => card.addEventListener("dragstart", dragstartHandler));
 
 
-// // Cancel dragover so that drop can fire
-// const dropZones = document.querySelectorAll(".drop-zone");
-// dropZones.forEach(dropZone => {
+// Cancel dragover so that drop can fire
+const dropZones = document.querySelectorAll(".drop-zone");
+dropZones.forEach(dropZone => {
 
-//   dropZone.addEventListener("dragover", (ev) => {
-//     ev.preventDefault();
-//   });
+  dropZone.addEventListener("dragover", (ev) => {
+    ev.preventDefault();
+  });
 
-//   dropZone.addEventListener("drop", (ev) => {
-//     ev.preventDefault();
-//     const cardName = ev.dataTransfer.getData("text/plain");
-//     console.log(cardName);
-//     const card = document.querySelector(`.${cardName}`);
-//     console.log(ev.target);
+  dropZone.addEventListener("drop", (ev) => {
+    ev.preventDefault();
+    const cardId = ev.dataTransfer.getData("text/plain");
+    console.log(cardId);
+    const card = document.querySelector(`[data-id='${cardId}']`);
 
-//     //prevent li inside li
-//     if (ev.target.classList.contains('drop-zone'))
-//       ev.target.appendChild(card);
-//     else
-//       ev.target.parentNode.appendChild(card); 
-//   });
+    //prevent li inside li
+    if (ev.target.classList.contains('drop-zone'))
+      ev.target.appendChild(card);
+    else
+      ev.target.parentNode.appendChild(card);
 
-// })
+    console.log(dropZone.closest('section').classList[0]);
+
+    //change card's status
+    fetch('/card', {
+      method: 'put',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        'cardId': cardId,
+        'status': dropZone.closest('section').classList[0]
+      })
+    })
+      .then(response => {
+        if (response.ok)
+          window.location.href = '/board';
+      })
+  });
+
+})
 //////////////////////////////
 
 //Drop down menu
-  const button = document.getElementById('menuButton');
-  const dropdown = document.getElementById('dropdown');
-  button.addEventListener('click', () => {
-    dropdown.classList.toggle('hidden');
-  });
+const button = document.getElementById('menuButton');
+const dropdown = document.getElementById('dropdown');
+button.addEventListener('click', () => {
+  dropdown.classList.toggle('hidden');
+});
 
 
 ///////////////////////////////
