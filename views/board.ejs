@@ -4,33 +4,37 @@
 <head>
     <title>Kanban Board</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/reset.css">
+    <link rel="stylesheet" href="/paper.css">
     <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
     <header>
-        <h1>Kanban</h1>
-        <nav>
-            <% if (user.email) { %>
-                <div class="dropdown-center">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <%= user.name %>
-                            <%= user._Id %>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">
-                                <%= user.email %>
-                            </a></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
-                    </ul>
+        <nav class="border split-nav">
+            <div class="nav-brand">
+                <h3><a href="#">Kanban Board</a></h3>
+            </div>
+            <% if(user.email) { %>
+                <div class="collapsible">
+                    <input id="collapsible1" type="checkbox" name="collapsible1">
+                    <label for="collapsible1">
+                        <div class="bar1"></div>
+                        <div class="bar2"></div>
+                        <div class="bar3"></div>
+                    </label>
+                    <div class="collapsible-body">
+                        <ul class="inline">
+                            <li><a href="#">
+                                    <%= user.name %>
+                                </a></li>
+                            <li><a href="/unlink">Unlink</a></li>
+                            <li><a href="/auth/logout">Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <% } else { %>
-                    <a class="nav-link" href="/login">Login</a>
-                    <a class="nav-link" href="/signup">Sign up</a>
-                    <% } %>
+                <% } %>
         </nav>
     </header>
     <main>
@@ -41,16 +45,19 @@
                 <ul class="drop-zone">
                     <% cards.forEach( card=> {%>
                         <% if(card.status==='todo' ){ %>
-                            <li class="card" draggable="true" data-id="<%= card._id%>">
+                            <li class="card" draggable="<%= card.author.id === userId %>" data-id="<%= card._id%>">
                                 <p>
                                     <%= card.title%>
                                 </p>
                                 <small>
                                     <%= card.author.name%>
-                                    <%= card.status%>
+                                        <%= card.status%>
                                 </small> <!-- pupulate did this -->
                                 <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
-                                        </small>
+                                </small>
+                                <% if(card.author.id===userId) { %>
+                                    <i class="fa fa-trash delete-icon" aria-hidden="true"></i>
+                                    <% };%>
                             </li>
                             <% } %>
                                 <% });%>
@@ -61,16 +68,19 @@
                 <ul class="drop-zone">
                     <% cards.forEach( card=> {%>
                         <% if(card.status==='wip' ){ %>
-                            <li class="card" draggable="true" data-id="<%= card._id%>">
+                            <li class="card border" draggable="<%= card.author.id === userId %>" data-id="<%= card._id%>">
                                 <p>
                                     <%= card.title%>
                                 </p>
                                 <small>
                                     <%= card.author.name%>
-                                    <%= card.status%>
+                                        <%= card.status%>
                                 </small> <!-- pupulate did this -->
                                 <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
-                                        </small>
+                                </small>
+                                <% if(card.author.id===userId) { %>
+                                    <i class="fa fa-trash delete-icon" aria-hidden="true"></i>
+                                    <% };%>
                             </li>
                             <% } %>
                                 <% });%>
@@ -81,16 +91,19 @@
                 <ul class="drop-zone">
                     <% cards.forEach( card=> {%>
                         <% if(card.status==='done' ){ %>
-                            <li class="card" draggable="true" data-id="<%= card._id%>">
+                            <li class="card" draggable="<%= card.author.id === userId %>" data-id="<%= card._id%>">
                                 <p>
                                     <%= card.title%>
                                 </p>
                                 <small>
                                     <%= card.author.name%>
-                                    <%= card.status %>
+                                        <%= card.status %>
                                 </small> <!-- pupulate did this -->
                                 <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
-                                        </small>
+                                </small>
+                                <% if(card.author.id===userId) { %>
+                                    <i class="fa fa-trash delete-icon" aria-hidden="true"></i>
+                                    <% };%>
                             </li>
                             <% } %>
                                 <% });%>
@@ -99,21 +112,15 @@
         </div>
 
     </main>
-    <footer>
-        <div>
-            <h3>TEAM </h3>
-            <ul>
-                <% users.forEach(u => { %>
-                <li>
-                    <%= u.name %>
-                </li>
-                <% }); %>
-            </ul>
-        </div>
+    <footer class="row flex-center child-borders margin">
+        <% users.forEach(u=> { %>
+            <div class="sm-2 col">
+                <%= u.name %>
+            </div>
+            <% }); %>
     </footer>
-</body>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 <script src="/main.js"></script>
 
 </html>

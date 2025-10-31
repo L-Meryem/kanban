@@ -1,60 +1,29 @@
-var thumb = document.getElementsByClassName("thumb");
-var trash = document.getElementsByClassName("fa-trash");
 var add = document.getElementsByClassName("fa-plus-square");
+var trash = document.getElementsByClassName("fa-trash");
 
 
-Array.from(thumb).forEach(function (element) {
-  element.addEventListener('click', function () {
-    const name = this.parentNode.parentNode.childNodes[1].innerText
-    const msg = this.parentNode.parentNode.childNodes[3].innerText
 
-    let whichThumb = this.classList.contains("fa-thumbs-up") ? 'thumbUp' : 'thumbDown';
-
-    fetch('messages', {
-      method: 'put',
+Array.from(trash).forEach( elem => {
+  elem.addEventListener('click', e => {
+    const cardId = e.target.parentNode.dataset.id; //access to data-id
+     fetch('/card', {
+      method: 'delete',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        'name': name,
-        'msg': msg,
-        'thumb': whichThumb
+        'cardId': cardId
       })
     })
       .then(response => {
-        if (response.ok) return response.json()
-      })
-      .then(data => {
-        console.log(data)
-        window.location.reload(true)
-      })
+        if (response.ok)
+          window.location.href = '/board';
+      });
   });
-});
-
-
-
-Array.from(trash).forEach(function (element) {
-  element.addEventListener('click', function () {
-    const name = this.parentNode.parentNode.childNodes[1].innerText
-    const msg = this.parentNode.parentNode.childNodes[3].innerText
-    fetch('messages', {
-      method: 'delete',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'name': name,
-        'msg': msg
-      })
-    }).then(function (response) {
-      window.location.reload()
-    })
   });
-});
 
-Array.from(add).forEach(e => e.addEventListener('click', createCard));
-
-function createCard(e) {
+Array.from(add).forEach( elem => elem.addEventListener('click', createCard));
+function createCard(elem) {
   //get drop zone
-  const ul = e.target.parentNode.nextElementSibling;
+  const ul = elem.target.parentNode.nextElementSibling;
   //create li
   const newCard = document.createElement('li');
   newCard.innerHTML = `
@@ -83,7 +52,7 @@ function createCard(e) {
 
 
 
-///Drag and drop API Learned from MDN🤍/////////////
+///Drag and drop API Learned from MDN/////////////
 //https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
 
 function dragstartHandler(e) {
@@ -98,21 +67,21 @@ cards.forEach(card => card.addEventListener("dragstart", dragstartHandler));
 const dropZones = document.querySelectorAll(".drop-zone");
 dropZones.forEach(dropZone => {
 
-  dropZone.addEventListener("dragover", (ev) => {
-    ev.preventDefault();
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
   });
 
-  dropZone.addEventListener("drop", (ev) => {
-    ev.preventDefault();
-    const cardId = ev.dataTransfer.getData("text/plain");
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    const cardId = e.dataTransfer.getData("text/plain");
     console.log(cardId);
     const card = document.querySelector(`[data-id='${cardId}']`);
 
     //prevent li inside li
-    if (ev.target.classList.contains('drop-zone'))
-      ev.target.appendChild(card);
+    if (e.target.classList.contains('drop-zone'))
+      e.target.appendChild(card);
     else
-      ev.target.parentNode.appendChild(card);
+      e.target.parentNode.appendChild(card);
 
     console.log(dropZone.closest('section').classList[0]);
 
@@ -132,20 +101,3 @@ dropZones.forEach(dropZone => {
   });
 
 })
-//////////////////////////////
-
-//Drop down menu
-const button = document.getElementById('menuButton');
-const dropdown = document.getElementById('dropdown');
-button.addEventListener('click', () => {
-  dropdown.classList.toggle('hidden');
-});
-
-
-///////////////////////////////
-
-
-
-
-
-
