@@ -5,7 +5,11 @@ const Card = require('./models/Card');
 const User = require('./models/User');
 
 router.get('/', async (req, res) => {
-    res.render('index'); //no extension
+    res.render('index', {message: req.flash('loginMessage')});
+});
+
+router.get('/signup', async (req, res) => {
+    res.render('signup', {message: req.flash('signupMessage')});
 });
 
 //display board

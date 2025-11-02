@@ -18,4 +18,4 @@ const UserSchema = new mongoose.Schema({
 module.exports = mongoose.model('user', UserSchema);
 // schema a rule that defines a model
 // model represents schema on a db
-// convert schema to model usng model()
+// convert schema to model using model()

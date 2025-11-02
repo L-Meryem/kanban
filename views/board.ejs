@@ -3,8 +3,6 @@
 
 <head>
     <title>Kanban Board</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/reset.css">
     <link rel="stylesheet" href="/paper.css">
     <link rel="stylesheet" href="/style.css">
@@ -38,72 +36,74 @@
         </nav>
     </header>
     <main>
-        <div class="board">
-
-            <section class="todo">
+        <div class="board child-borders">
+            <section class="todo border">
                 <h1>Todo <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
                 <ul class="drop-zone">
                     <% cards.forEach( card=> {%>
                         <% if(card.status==='todo' ){ %>
                             <li class="card" draggable="<%= card.author.id === userId %>" data-id="<%= card._id%>">
+                                <div class="info">
+                                    <small>
+                                        <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
+                                    </small>
+                                    <div>
+                                        <% if(card.author.id===userId) { %>
+                                            <i class="fa-solid fa-trash"></i>
+                                            <% };%>
+                                    </div>
+                                </div>
                                 <p>
                                     <%= card.title%>
                                 </p>
-                                <small>
-                                    <%= card.author.name%>
-                                        <%= card.status%>
-                                </small> <!-- pupulate did this -->
-                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
-                                </small>
-                                <% if(card.author.id===userId) { %>
-                                    <i class="fa fa-trash delete-icon" aria-hidden="true"></i>
-                                    <% };%>
                             </li>
                             <% } %>
                                 <% });%>
                 </ul>
             </section>
-            <section class="wip">
+            <section class="wip border">
                 <h1>WIP <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
                 <ul class="drop-zone">
                     <% cards.forEach( card=> {%>
                         <% if(card.status==='wip' ){ %>
-                            <li class="card border" draggable="<%= card.author.id === userId %>" data-id="<%= card._id%>">
+                            <li class="card border" draggable="<%= card.author.id === userId %>"
+                                data-id="<%= card._id%>">
+                                <div class="info">
+                                    <small>
+                                        <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
+                                    </small>
+                                    <div>
+                                        <% if(card.author.id===userId) { %>
+                                            <i class="fa-solid fa-trash"></i>
+                                            <% };%>
+                                    </div>
+                                </div>
                                 <p>
                                     <%= card.title%>
                                 </p>
-                                <small>
-                                    <%= card.author.name%>
-                                        <%= card.status%>
-                                </small> <!-- pupulate did this -->
-                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
-                                </small>
-                                <% if(card.author.id===userId) { %>
-                                    <i class="fa fa-trash delete-icon" aria-hidden="true"></i>
-                                    <% };%>
-                            </li>
-                            <% } %>
-                                <% });%>
+                                <% } %>
+                                    <% });%>
                 </ul>
             </section>
-            <section class="done">
+            <section class="done border">
                 <h1>Done <i class="fa fa-plus-square" aria-hidden="true"></i></h1>
                 <ul class="drop-zone">
                     <% cards.forEach( card=> {%>
                         <% if(card.status==='done' ){ %>
                             <li class="card" draggable="<%= card.author.id === userId %>" data-id="<%= card._id%>">
+                                <div class="info">
+                                    <small>
+                                        <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
+                                    </small>
+                                    <div>
+                                        <% if(card.author.id===userId) { %>
+                                            <i class="fa-solid fa-trash"></i>
+                                            <% };%>
+                                    </div>
+                                </div>
                                 <p>
                                     <%= card.title%>
                                 </p>
-                                <small>
-                                    <%= card.author.name%>
-                                        <%= card.status %>
-                                </small> <!-- pupulate did this -->
-                                <small>Created on: <%= new Date(card.dateOfCreation).toLocaleDateString('en-US') %>
-                                </small>
-                                <% if(card.author.id===userId) { %>
-                                    <i class="fa fa-trash delete-icon" aria-hidden="true"></i>
-                                    <% };%>
                             </li>
                             <% } %>
                                 <% });%>
@@ -112,15 +112,20 @@
         </div>
 
     </main>
-    <footer class="row flex-center child-borders margin">
-        <% users.forEach(u=> { %>
-            <div class="sm-2 col">
-                <%= u.name %>
-            </div>
-            <% }); %>
+    <footer class="team border">
+        <h3>Current team:</h3>
+        <div class="child-borders">
+            <% users.forEach(u=> { %>
+                <h3 class="border">
+                    <%= u.name %>
+                </h3>
+                <% }); %>
+        </div>
+
     </footer>
 
 </body>
+<script src="https://kit.fontawesome.com/a9b54c7280.js" crossorigin="anonymous"></script>
 <script src="/main.js"></script>
 
 </html>

@@ -1,11 +1,12 @@
-var add = document.getElementsByClassName("fa-plus-square");
-var trash = document.getElementsByClassName("fa-trash");
+let add = document.getElementsByClassName("fa-plus-square");
+let trash = document.getElementsByClassName("fa-trash");
 
 
 
 Array.from(trash).forEach( elem => {
   elem.addEventListener('click', e => {
-    const cardId = e.target.parentNode.dataset.id; //access to data-id
+    const cardId = e.currentTarget.parentNode.parentNode.parentNode.dataset.id; //access to data-id
+    console.log(cardId);
      fetch('/card', {
       method: 'delete',
       headers: { 'Content-Type': 'application/json' },
@@ -39,7 +40,7 @@ function createCard(elem) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           'title': input.value,
-          'status': newCard.parentNode.parentNode.className
+          'status': newCard.parentNode.parentNode.className.split(' ')[0]
         })
       })
         .then(response => {
