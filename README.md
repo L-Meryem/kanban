@@ -15,6 +15,7 @@ A shared Kanban board where team members can view everyone’s progress but can 
  - `Mongoose`
  - `EJS`
  - `bcrypt, express-session, connect-flash`
+ - `PaperCSS`
 
 ### Lessons Learned
 
